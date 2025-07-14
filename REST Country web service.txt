@@ -1,0 +1,129 @@
+
+
+#### `Country.java`
+
+package com.example.rest.model;
+
+public class Country {
+    private String code;
+    private String name;
+
+    public Country() {}
+
+    public Country(String code, String name) {
+        this.code = code;
+        this.name = name;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+
+
+#### `CountryController.java`
+
+package com.example.rest.controller;
+
+import com.example.rest.model.Country;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.*;
+
+@RestController
+@RequestMapping("/api")
+public class CountryController {
+
+    private static final Map<String, Country> countryMap = new HashMap<>();
+
+    static {
+        countryMap.put("IN", new Country("IN", "India"));
+        countryMap.put("US", new Country("US", "United States"));
+        countryMap.put("UK", new Country("UK", "United Kingdom"));
+    }
+
+    @GetMapping("/countries")
+    public List<Country> getAllCountries() {
+        return new ArrayList<>(countryMap.values());
+    }
+
+    @GetMapping("/countries/{code}")
+    public Country getCountryByCode(@PathVariable String code) {
+        return countryMap.get(code.toUpperCase());
+    }
+
+    @PostMapping("/countries")
+    public Country addCountry(@RequestBody Country country) {
+        countryMap.put(country.getCode().toUpperCase(), country);
+        return country;
+    }
+
+    @DeleteMapping("/countries/{code}")
+    public String deleteCountry(@PathVariable String code) {
+        countryMap.remove(code.toUpperCase());
+        return "Country deleted successfully";
+    }
+}
+
+
+#### `SpringRestHandsonApplication.java`
+
+package com.example.rest;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class SpringRestHandsonApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(SpringRestHandsonApplication.class, args);
+    }
+}
+
+
+### Output
+
+#### GET `/api/countries`
+
+[
+  { "code": "IN", "name": "India" },
+  { "code": "US", "name": "United States" },
+  { "code": "UK", "name": "United Kingdom" }
+]
+
+
+#### GET `/api/countries/IN`
+
+{ "code": "IN", "name": "India" }
+
+
+#### POST `/api/countries`
+
+**Request Body:**
+
+{ "code": "JP", "name": "Japan" }
+
+
+**Response:**
+{ "code": "JP", "name": "Japan" }
+
+
+#### DELETE `/api/countries/UK`
+
+**Response:**
+
+```
+Country deleted successfully
+```
