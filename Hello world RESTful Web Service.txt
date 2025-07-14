@@ -1,0 +1,45 @@
+
+
+#### `HelloWorldController.java`
+
+package com.example.rest.controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class HelloWorldController {
+
+    @GetMapping("/hello")
+    public String sayHello() {
+        return "Hello World from Spring Boot REST!";
+    }
+}
+
+
+#### `SpringRestHandsonApplication.java`
+
+package com.example.rest;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class SpringRestHandsonApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(SpringRestHandsonApplication.class, args);
+    }
+}
+
+
+### ✅ Output
+
+#### GET `/hello`
+
+URL: `http://localhost:8080/hello`
+
+Response:
+
+```
+Hello World from Spring Boot REST!
+```
