@@ -1,0 +1,89 @@
+
+
+#### `SpringRestHandsonApplication.java`
+
+package com.example.rest;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class SpringRestHandsonApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(SpringRestHandsonApplication.class, args);
+    }
+}
+
+
+#### `HelloController.java`
+
+package com.example.rest.controller;
+
+import org.springframework.web.bind.annotation.*;
+import java.util.HashMap;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api")
+public class HelloController {
+
+    @GetMapping("/greet")
+    public String greet() {
+        return "Hello from Spring Boot REST!";
+    }
+
+    @GetMapping("/greet/{name}")
+    public String greetByName(@PathVariable String name) {
+        return "Hello, " + name + "!";
+    }
+
+    @PostMapping("/echo")
+    public Map<String, Object> echo(@RequestBody Map<String, Object> payload) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", "received");
+        response.put("yourData", payload);
+        return response;
+    }
+}
+
+#### `application.properties`
+
+server.port=8080
+
+
+## Output
+
+#### GET `/api/greet`
+
+```
+Hello from Spring Boot REST!
+```
+
+#### GET `/api/greet/John`
+
+```
+Hello, John!
+```
+
+#### POST `/api/echo`
+
+**Request Body:**
+
+```json
+{
+  "id": 1,
+  "name": "Test"
+}
+```
+
+**Response:**
+
+```json
+{
+  "status": "received",
+  "yourData": {
+    "id": 1,
+    "name": "Test"
+  }
+}
+```
