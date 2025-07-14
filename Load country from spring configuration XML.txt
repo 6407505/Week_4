@@ -1,0 +1,83 @@
+
+
+#### `Country.java`
+
+package com.example.rest.model;
+
+public class Country {
+    private String name;
+    private String capital;
+
+    public Country() {}
+
+    public Country(String name, String capital) {
+        this.name = name;
+        this.capital = capital;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCapital() {
+        return capital;
+    }
+
+    public void setCapital(String capital) {
+        this.capital = capital;
+    }
+
+    @Override
+    public String toString() {
+        return "Country{name='" + name + "', capital='" + capital + "'}";
+    }
+}
+
+
+#### `country.xml` (in `src/main/resources`)
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="country" class="com.example.rest.model.Country">
+        <property name="name" value="India"/>
+        <property name="capital" value="New Delhi"/>
+    </bean>
+</beans>
+
+
+#### `SpringRestHandsonApplication.java`
+
+package com.example.rest;
+
+import com.example.rest.model.Country;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+@SpringBootApplication
+public class SpringRestHandsonApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(SpringRestHandsonApplication.class, args);
+
+        ApplicationContext context = new ClassPathXmlApplicationContext("country.xml");
+        Country country = (Country) context.getBean("country");
+        System.out.println(country);
+    }
+}
+
+
+### Output
+
+```
+Country{name='India', capital='New Delhi'}
+```
